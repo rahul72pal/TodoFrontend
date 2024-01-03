@@ -43,7 +43,7 @@ const Task = () => {
   const getAllTaks = async () => {
     const result = await getTask(tokenValue);
     // console.log("DATA=", result);
-    if (result) {
+    if (result && result.data) {
       setTasks(result.data);
       setProgress(result.completed);
       setComplatedTask(result.taskCompleted);

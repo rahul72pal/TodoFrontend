@@ -51,10 +51,14 @@ export const getTask = async (token)=>{
             throw new Error(response.data.message);
         }
         // toast.success("")
-        result = response.data
+        if(response.data){
+            result = response.data
+        }
+        return;
+       
     } catch (error) {
         console.log("GET API error",error);
-        toast.error(error.response.data.message);
+        // toast.error(error.response.data.message);
     }
     toast.dismiss(toastId);
     return result;
