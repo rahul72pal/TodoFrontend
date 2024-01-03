@@ -43,8 +43,8 @@ const Task = () => {
   const getAllTaks = async () => {
     const result = await getTask(tokenValue);
     // console.log("DATA=", result);
-    if (result && result.data) {
-      setTasks(result.data);
+    if (result && result?.data) {
+      setTasks(result?.data);
       setProgress(result.completed);
       setComplatedTask(result.taskCompleted);
     }
@@ -85,7 +85,12 @@ const Task = () => {
     }
   }
 
-  // console.log("Previous Task", task);
+  
+  console.log("Task is here=",(task?.length)+(previousTask?.length));
+  const totalTask = (task?.length)+(previousTask?.length);
+  console.log("Previous Task", ((progress/100)/totalTask)*100);
+  // setProgress(((progress/100)/totalTask)*100);
+  const totalProgress = ((progress/100)/totalTask)*100;
 
   return (
     <div className='text-white lg:w-[50%] md:w-full mx-auto relative px-4 flex mb-10 flex-col space-y-3 mt-5 pt-5'>
@@ -126,12 +131,12 @@ const Task = () => {
 
         <div className='bg-[#181818] flex flex-col px-2 py-3 rounded-lg space-y-2'>
           <p className='text-lg font-semibold'>Daily Task</p>
-          <p className='text-sm text-gray-400'>{completedTaskNum}/{task.length} Task Completed</p>
+          <p className='text-sm text-gray-400'>{completedTaskNum}/{totalTask} Task Completed</p>
 
           <div className='flex flex-col gap-2'>
             <p>You are almost done, go ahead</p>
             {/* Add responsive styles to Line component if needed */}
-            <Line className='bg-transparent rounded-lg h-4' percent={progress} strokeWidth={3} strokeColor="#9b64bf" />
+            <Line className='bg-transparent rounded-lg h-4' percent={totalProgress? totalProgress: progress} strokeWidth={3} strokeColor="#9b64bf" />
           </div>
         </div>
       </div>
@@ -141,6 +146,7 @@ const Task = () => {
           <p className='font-bold text-lg md:text-xl lg:text-2xl'>Today's Task</p>
           {/* <button className='text-sm text-[#ba83de] '>See All</button> */}
         </div>
+
 
         <div className='space-y-4'>
           {task && task.filter((item) => {
@@ -178,7 +184,7 @@ const Task = () => {
       </section>
 
 
-      {previousTask && previousTask.length !== 0 && previousTask !== undefined ?
+      {previousTask && previousTask?.length !== 0 && previousTask !== undefined ?
         (
           <div>
             <section className='flex flex-col space-y-3 mb-5 pb-5'>
