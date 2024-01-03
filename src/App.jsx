@@ -1,14 +1,14 @@
 import "./App.css";
-import Task from './components/Task'
-import AddTask from "./components/AddTask";
-import Home from "./components/Pages/Home";
+import Task from './components/Task.jsx'
+import AddTask from "./components/AddTask.jsx";
+import Home from "./components/Pages/Home.jsx";
 import { Route, Routes } from "react-router-dom";
-import Singup from "./components/Pages/Singup";
-import VerifyEmail from "./components/Pages/VerifyEmail";
-import LoginPage from "./components/Pages/LoginPage";
-import Navbar from "./components/smallComponents/Navbar";
+import Singup from "./components/Pages/Singup.jsx";
+import VerifyEmail from "./components/Pages/VerifyEmail.jsx";
+import LoginPage from "./components/Pages/LoginPage.jsx";
+import Navbar from "./components/smallComponents/Navbar.jsx";
 import OperRoute from "./components/Routes/OperRoute";
-import PrivateRoute from "./components/Routes/PrivateRoute";
+import PrivateRoute from "./components/Routes/PrivateRoute.jsx";
 import { useSelector } from "react-redux";
 
 function App() {
