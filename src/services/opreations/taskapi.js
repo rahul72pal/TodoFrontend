@@ -40,7 +40,7 @@ export const createtodo = async(data,token)=>{
     return result;
 }
 export const getTask = async (token)=>{
-    const toastId = toast.loading("Waiting...1")
+    const toastId = toast.loading("Waiting...")
     let result ;
     try {
         const response = await apiConnector("GET", GETTODD_API ,null ,{
@@ -64,7 +64,7 @@ export const getTask = async (token)=>{
     return result;
 }
 export const yesterday = async(token)=>{
-    const toastId = toast.loading("Waiting...2")
+    const toastId = toast.loading("Waiting...")
     let result ;
     try {
         const response = await apiConnector("GET", YESTERDAY ,null ,{
@@ -84,7 +84,7 @@ export const yesterday = async(token)=>{
     return result;
 }
 export const previous = async(token)=>{
-    const toastId = toast.loading("Waiting...3")
+    const toastId = toast.loading("Waiting...")
     let result ;
     try {
         const response = await apiConnector("GET", PREVIOUS ,null ,{
@@ -104,7 +104,7 @@ export const previous = async(token)=>{
     return result;
 }
 export const completedTask = async(taskId,token)=>{
-    const toastId = toast.loading("Waiting...45")
+    const toastId = toast.loading("Waiting...")
     let result ;
     console.log("TASK ID HERE 2 =",taskId);
     try {
