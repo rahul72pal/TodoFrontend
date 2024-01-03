@@ -19,17 +19,17 @@ const Task = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const[search , setSearch] = useState('')
+  const [search, setSearch] = useState('')
   const [task, setTasks] = useState([]);
   const { token } = useSelector((state) => state.auth);
   const tokenValue = token.token;
-  console.log("121212=",tokenValue);
+  console.log("121212=", tokenValue);
   const [previousTask, setPreviousTask] = useState();
   const [progress, setProgress] = useState(0);
   const [completedTaskNum, setComplatedTask] = useState(0);
 
   //serach input
-  const handleOnSearch = (e)=>{
+  const handleOnSearch = (e) => {
     setSearch(e.target.value);
   }
 
@@ -43,9 +43,11 @@ const Task = () => {
   const getAllTaks = async () => {
     const result = await getTask(tokenValue);
     // console.log("DATA=", result);
-    setTasks(result.data);
-    setProgress(result.completed);
-    setComplatedTask(result.taskCompleted);
+    if (result) {
+      setTasks(result.data);
+      setProgress(result.completed);
+      setComplatedTask(result.taskCompleted);
+    }
   }
 
   const previousTaskData = async () => {
@@ -111,7 +113,7 @@ const Task = () => {
         <div>
           <div className='bg-[#1e1e1e] text-white flex items-center px-3 py-2 rounded-xl my-3 gap-3'>
             <FaSearch />
-            <input onChange={(e)=>handleOnSearch(e)} className='bg-[#1e1e1e] w-full' type="text" placeholder={`Search The Task Name Here `} />
+            <input onChange={(e) => handleOnSearch(e)} className='bg-[#1e1e1e] w-full' type="text" placeholder={`Search The Task Name Here `} />
           </div>
         </div>
       </div>
@@ -141,10 +143,10 @@ const Task = () => {
         </div>
 
         <div className='space-y-4'>
-          {task && task.filter((item)=>{
-            return search.toLocaleLowerCase()===''?
-            item:
-            item.name.toLocaleLowerCase().includes(search)
+          {task && task.filter((item) => {
+            return search.toLocaleLowerCase() === '' ?
+              item :
+              item.name.toLocaleLowerCase().includes(search)
           }).map((data, index) => (
             <div className={`flex flex-col space-y-3`} key={index}>
               <div className={`${data.priority === 'red' ? "border-red-700" :
@@ -187,11 +189,11 @@ const Task = () => {
             </section>
             <div className='flex flex-col space-y-3'>
               <div className='space-y-3'>
-                {previousTask && previousTask.filter((item)=>{
-            return search.toLocaleLowerCase()===''?
-            item:
-            item.name.toLocaleLowerCase().includes(search)
-          }).map((data, index) => (
+                {previousTask && previousTask.filter((item) => {
+                  return search.toLocaleLowerCase() === '' ?
+                    item :
+                    item.name.toLocaleLowerCase().includes(search)
+                }).map((data, index) => (
                   <div className={`flex flex-col space-y-3`} key={index}>
                     <div className={`${data.priority === 'red' ? "border-red-700" :
                       data.priority === 'orange' ? "border-orange-500" :
