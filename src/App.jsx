@@ -25,7 +25,7 @@ function App() {
               <Home/>
               // </OperRoute>
             }></Route>
-            <Route path="/tasks" element={<PrivateRoute><Task></Task></PrivateRoute>}></Route>
+            <Route path="/tasks" element={<PrivateRoute><Task/></PrivateRoute>}></Route>
             <Route path="/add-task" element={<PrivateRoute><AddTask/></PrivateRoute> }></Route>
             <Route path="/sign-up" element={<Singup/>}></Route>
             <Route path="/login" element={<LoginPage/>}></Route>
