@@ -13,7 +13,7 @@ const Home = () => {
         <div className="container mx-auto mt-8 text-center text-white p-5">
            
             {token && (<button onClick={()=> dispatch(logout(navigate))} className="bg-gray-500 text-white px-4 py-2 rounded">Logout</button>)}
-            <h1 className="text-4xl font-bold mb-4">Welcome to Your Todo App</h1>
+            <h1 className="text-4xl font-bold mb-4">Welcome to Your Todo Task App</h1>
             <p className="text-lg mb-8">Stay organized and get things done!</p>
 
             <div className="flex justify-center space-x-4">
