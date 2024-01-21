@@ -90,10 +90,10 @@ const Task = () => {
 
   console.log("Task is here=", (task?.length) + (previousTask?.length));
   const totalTask = (task?.length) + (previousTask?.length);
-  console.log("Previous Task", ((progress / 100) / totalTask) * 100, "total=", totalTask);
+  console.log("Previous Task 1", ((progress / 100) / totalTask) * 100, "total=", totalTask);
   // setProgress(((progress/100)/totalTask)*100);
-  const totalProgress = ((progress) / totalTask) * 100;
-  console.log("Previous task", previousTask, "totalProgress=", totalProgress, progress);
+  const totalProgress = ((completedTaskNum) / totalTask) * 100;
+  console.log("Previous task 2", previousTask, "totalProgress=", totalProgress, progress,completedTaskNum);
 
   const onClickBack = () => {
     navigate(-1);
