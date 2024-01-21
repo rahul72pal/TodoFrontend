@@ -12,7 +12,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { LuFileEdit } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa";
-import { setEditTask, setTask, setTaskId } from '../slices/taskSlice';
+import { resetTask, setEditTask, setTask, setTaskId } from '../slices/taskSlice';
 import { toast } from 'react-hot-toast';
 
 const Task = () => {
@@ -78,26 +78,35 @@ const Task = () => {
   };
 
   const handleToDelete = async (id) => {
+    console.log("Delete task api", id);
     await deleteTask(id, tokenValue);
+    setTask(task.filter(id) ? task : task)
     if (task.length !== 0) {
       await getAllTaks();
       await previousTaskData();
     }
   }
 
-  
-  console.log("Task is here=",(task?.length)+(previousTask?.length));
-  const totalTask = (task?.length)+(previousTask?.length);
-  console.log("Previous Task", ((progress/100)/totalTask)*100);
+
+  console.log("Task is here=", (task?.length) + (previousTask?.length));
+  const totalTask = (task?.length) + (previousTask?.length);
+  console.log("Previous Task", ((progress / 100) / totalTask) * 100, "total=", totalTask);
   // setProgress(((progress/100)/totalTask)*100);
-  const totalProgress = ((progress/100)/totalTask)*100;
+  const totalProgress = ((progress) / totalTask) * 100;
+  console.log("Previous task", previousTask, "totalProgress=", totalProgress, progress);
+
+  const onClickBack = () => {
+    navigate(-1);
+    dispatch(resetTask());
+  }
+  console.log(search)
 
   return (
     <div className='text-white lg:w-[50%] md:w-full mx-auto relative px-4 flex mb-10 flex-col space-y-3 mt-5 pt-5'>
 
       <div>
         <button className='px-3 py-1 text-black flex items-center gap-1 hover:bg-[#a764d4] hover:text-white font-semibold mt-6 rounded-xl bg-[#BA83DE]'
-          onClick={() => navigate(-1)}>
+          onClick={() => onClickBack()}>
           <IoMdArrowRoundBack /> Back
         </button>
       </div>
@@ -136,7 +145,7 @@ const Task = () => {
           <div className='flex flex-col gap-2'>
             <p>You are almost done, go ahead</p>
             {/* Add responsive styles to Line component if needed */}
-            <Line className='bg-transparent rounded-lg h-4' percent={totalProgress? totalProgress: progress} strokeWidth={3} strokeColor="#9b64bf" />
+            <Line className='bg-transparent rounded-lg h-4' percent={totalProgress ? totalProgress : progress} strokeWidth={3} strokeColor="#9b64bf" />
           </div>
         </div>
       </div>
@@ -152,7 +161,7 @@ const Task = () => {
           {task && task.filter((item) => {
             return search.toLocaleLowerCase() === '' ?
               item :
-              item.name.toLocaleLowerCase().includes(search)
+              item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
           }).map((data, index) => (
             <div className={`flex flex-col space-y-3`} key={index}>
               <div className={`${data.priority === 'red' ? "border-red-700" :
@@ -219,7 +228,7 @@ const Task = () => {
                           }
                         </span>
                         <div className='flex gap-2'>
-                          <button onClick={(data) => handleToDelete(data._id)} className='text-2xl text-red-500'><MdOutlineDeleteOutline /></button>
+                          <button onClick={() => handleToDelete(data._id)} className='text-2xl text-red-500'><MdOutlineDeleteOutline /></button>
                           <button className='text-xl text-gray-500'><LuFileEdit /></button>
                         </div>
                       </div>
