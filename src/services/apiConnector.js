@@ -1,15 +1,15 @@
 import axios from "axios"
 
-export const axiosInstance = axios.create({});
+const axiosInstance = axios.create({});
 
-export const apiConnector = (methode, url , bodyData, headers, params)=>{
-    console.log("API Connector =",methode, url , bodyData, headers, params);
-    console.log("data 3",bodyData);
-    return axiosInstance({
-        method: `${methode}`,
-        url: `${url}`,
-        data: bodyData? bodyData: null,
-        headers: headers? headers: null,
-        params: params? params: null
-    })
-}
+export const apiConnector = (method, url, bodyData, headers, params) => {
+  console.log("API Connector =", method, url, bodyData, headers, params);
+
+  return axiosInstance({
+    method: method,
+    url: url,
+    data: bodyData ? bodyData : null, // Use 'data' instead of 'body'
+    headers: headers ? headers : null,
+    params: params ? params : null,
+  });
+};

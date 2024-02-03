@@ -10,11 +10,12 @@ const Navbar = () => {
             <div className="container mx-auto flex flex-col md:flex-row justify-evenly items-center">
                 <div className="text-white text-xl flex items-center gap-3 font-bold"><Link className='flex items-center gap-2' to={"/"}>Task Alert  <FaBell /></Link></div>
                 <div className="flex items-center space-x-4 mt-4 lg:mt-0">
-                <Link to="/" className="text-white">Home</Link>
+                    <Link to="/" className="text-white cursor-pointer">Home</Link>
                     {/* <a href="https://rpportfolio-website.rahulpal5.repl.co/" className="text-white">About</a> */}
-                    <a href="https://rpportfolio-website.rahulpal5.repl.co/" className="text-white">Contact</a>
+                    <a href="https://rp-portfolio-website.vercel.app/" className="text-white cursor-pointer">Contact</a>
+                    <Link to={"/challenge-page"} className="text-white cursor-pointer">My Challenge's </Link>
                 </div>
-                <div className="flex items-center space-x-4 mt-4 lg:mt-0">
+                <div className="flex sm:flex-col  items-center space-x-4 mt-4 lg:mt-0">
                     {token ? (
                         <div className='flex gap-3'>
                             <Link to="/tasks" className="bg-blue-500 text-white px-4 py-2 rounded">
@@ -22,6 +23,9 @@ const Navbar = () => {
                             </Link>
                             <Link to="/add-task" className="bg-green-500 text-white px-4 py-2 rounded">
                                 Add Task
+                            </Link>
+                            <Link to="/challenge" className="bg-pink-500 text-white px-4 py-2 rounded">
+                                Make Your Challange
                             </Link>
                         </div>
                     ) : (

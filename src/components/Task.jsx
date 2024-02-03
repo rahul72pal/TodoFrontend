@@ -23,7 +23,7 @@ const Task = () => {
   const [task, setTasks] = useState([]);
   const { token } = useSelector((state) => state.auth);
   const tokenValue = token.token;
-  console.log("121212=", tokenValue);
+  //console.log("121212=", tokenValue);
   const [previousTask, setPreviousTask] = useState();
   const [progress, setProgress] = useState(0);
   const [completedTaskNum, setComplatedTask] = useState(0);
@@ -42,7 +42,7 @@ const Task = () => {
 
   const getAllTaks = async () => {
     const result = await getTask(tokenValue);
-    // console.log("DATA=", result);
+    // //console.log("DATA=", result);
     if (result && result?.data) {
       setTasks(result?.data);
       setProgress(result.completed);
@@ -52,7 +52,7 @@ const Task = () => {
 
   const previousTaskData = async () => {
     const result = await previous(tokenValue)
-    // console.log("Previos Data=", result);
+    // //console.log("Previos Data=", result);
     setPreviousTask(result);
   }
 
@@ -73,12 +73,12 @@ const Task = () => {
       await getAllTaks();
       await previousTaskData();
     }
-    // console.log("TASK ID HERE =", id);
+    // //console.log("TASK ID HERE =", id);
 
   };
 
   const handleToDelete = async (id) => {
-    console.log("Delete task api", id);
+    //console.log("Delete task api", id);
     await deleteTask(id, tokenValue);
     setTask(task.filter(id) ? task : task)
     if (task.length !== 0) {
@@ -88,18 +88,18 @@ const Task = () => {
   }
 
 
-  console.log("Task is here=", (task?.length) + (previousTask?.length));
+  //console.log("Task is here=", (task?.length) + (previousTask?.length));
   const totalTask = (task?.length) + (previousTask?.length);
-  console.log("Previous Task 1", ((progress / 100) / totalTask) * 100, "total=", totalTask);
+  //console.log("Previous Task 1", ((progress / 100) / totalTask) * 100, "total=", totalTask);
   // setProgress(((progress/100)/totalTask)*100);
   const totalProgress = ((completedTaskNum) / totalTask) * 100;
-  console.log("Previous task 2", previousTask, "totalProgress=", totalProgress, progress,completedTaskNum);
+  //console.log("Previous task 2", previousTask, "totalProgress=", totalProgress, progress,completedTaskNum);
 
   const onClickBack = () => {
     navigate(-1);
     dispatch(resetTask());
   }
-  console.log(search)
+  //console.log(search)
 
   return (
     <div className='text-white lg:w-[50%] md:w-full mx-auto relative px-4 flex mb-10 flex-col space-y-3 mt-5 pt-5'>

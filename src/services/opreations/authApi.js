@@ -2,6 +2,7 @@ import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { endpoints } from "../apis";
 import { setToken } from "../../slices/authSlice";
+import axios from "axios";
 
 const {
     SENDOTP_API,
@@ -79,9 +80,8 @@ export function login(email, password, navigate) {
     return async (dispatch) => {
         const toastId = toast.loading("Loading...");
         try {
-            const response = await apiConnector("POST", LOGIN_API, {
-                email, password
-            })
+            const response = await apiConnector("POST", LOGIN_API, {email, password},{ "Content-Type": "application/json",})
+            // const response = await axios.create({})
             console.log("Login APi Resposne..", response);
 
             if (!response.data.success) {

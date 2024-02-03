@@ -10,6 +10,10 @@ import Navbar from "./components/smallComponents/Navbar.jsx";
 import OperRoute from "./components/Routes/OperRoute";
 import PrivateRoute from "./components/Routes/PrivateRoute.jsx";
 import { useSelector } from "react-redux";
+import HardChallange from "./components/Pages/HardChallange.jsx";
+import ChallengePage from "./components/Pages/ChallengePage.jsx";
+import ChallengeTasks from "./components/Pages/ChallengeTasks.jsx";
+
 
 function App() {
   const {signupData} = useSelector((state)=>state.auth);
@@ -27,6 +31,9 @@ function App() {
             }></Route>
             <Route path="/tasks" element={<PrivateRoute><Task/></PrivateRoute>}></Route>
             <Route path="/add-task" element={<PrivateRoute><AddTask/></PrivateRoute> }></Route>
+            <Route path="/challenge" element={<PrivateRoute><HardChallange/></PrivateRoute> }></Route>
+            <Route path="/challenge/:challengeId" element={<PrivateRoute><ChallengeTasks/></PrivateRoute> }></Route>
+            <Route path="/challenge-page" element={<PrivateRoute><ChallengePage/></PrivateRoute> }></Route>
             <Route path="/sign-up" element={<Singup/>}></Route>
             <Route path="/login" element={<LoginPage/>}></Route>
            { signupData && <Route path="/verify-email" element={<VerifyEmail/>}></Route>}

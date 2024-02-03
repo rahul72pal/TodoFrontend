@@ -6,8 +6,10 @@ import { createtodo, updateTask } from '../services/opreations/taskapi';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { resetTask } from '../slices/taskSlice';
+import { createChallengeTask } from '../services/opreations/Challenegeapi';
+import { setChallenge, setStep } from '../slices/Challenge';
 
-const AddTask = () => {
+const AddTask = ({ challenge, challengeId, setAddTask }) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -37,8 +39,8 @@ const AddTask = () => {
 
     const isUpdateForm = () => {
         const currentValues = getValues()
-        console.log("Current=",currentValues);
-        console.log("Task",task);
+        console.log("Current=", currentValues);
+        console.log("Task", task);
 
         return (
             currentValues.name !== task.name ||
@@ -87,16 +89,16 @@ const AddTask = () => {
                 formData.append("dueHours", data.hours);
                 formData.append("alertMode", data.alert);
                 formData.append("taskId", taskId);
-                formData.append("completed",task.completed);
+                formData.append("completed", task.completed);
                 await updateTask(formData, tokenValue);
                 reset()
                 navigate('/tasks');
                 dispatch(resetTask());
             }
-            else{
+            else {
                 toast('Nothing Change!', {
                     icon: '😕',
-                  });
+                });
             }
         }
 
@@ -108,28 +110,42 @@ const AddTask = () => {
             formData.append("name", data.name);
             formData.append("description", data.description);
             formData.append("priority", data.priority);
-            formData.append("dueHours", data.hours);
-            formData.append("alertMode", data.alert);
+            formData.append("dueHours", data?.hours);
+            formData.append("alertMode", data?.alert);
+            formData.append("challengeId", challengeId);
             // console.log("Form Data=",formData);
             console.log(tokenValue)
-            await createtodo(formData, tokenValue);
-            reset()
-            navigate('/tasks')
+            if (challenge) {
+                const result = await createChallengeTask(formData, tokenValue)
+                console.log("Result of the challenge Task ", result);
+                dispatch(setChallenge(result?.challenge))
+                setAddTask(false)
+                //    dispatch(setStep(3))
+            } else {
+                await createtodo(formData, tokenValue);
+                navigate('/tasks')
+                reset()
+            }
         }
     }
 
-    const onClickBack = ()=>{
-        navigate(-1);
-        dispatch(resetTask());
+    const onClickBack = () => {
+        if (challenge) {
+            setAddTask(false)
+        } else {
+            navigate(-1);
+            dispatch(resetTask());
+        }
+
     }
 
     return (
-        <div className='text-white lg:w-[40%] px-5 py-3 md:w-full mx-auto'>
+        <div className='text-white bg-gray-800 py-5 lg:w-[40%] px-5 rounded-xl md:w-full mx-auto'>
 
             <button className='px-3 py-1 text-black flex items-center gap-1 hover:bg-[#a764d4] hover:text-white font-semibold mt-6 rounded-xl bg-[#BA83DE]'
-                onClick={()=>onClickBack()}> <IoMdArrowRoundBack /> Back</button>
+                onClick={() => onClickBack()}> <IoMdArrowRoundBack /> Back</button>
 
-            <h1 className='text-center text-3xl py-3'>Create new task</h1>
+            <h1 className='text-center text-3xl font-semibold py-3'>{challenge ? "Add Challenge Task" : "Create new task"}</h1>
 
             {/* task form  */}
             <p className='py-3'>Schedule</p>
@@ -200,37 +216,45 @@ const AddTask = () => {
                     </select>
                 </div>
 
-                <div className='w-full space-y-2'>
-                    <p>Complete the task in Hours</p>
-                    <select className='w-full
+                <div>
+                    {
+                        challenge ? (null) : (
+                            <div>
+                                <div className='w-full space-y-2'>
+                                    <p>Complete the task in Hours</p>
+                                    <select className='w-full
                      bg-[#1e1e1e] px-1 py-1 font-semibold text-purple-400 
                      rounded-xl text-xl'
-                        {...register("hours", { required: true })}
-                    >
-                        <option value={1}>1</option>
-                        <option value={2}>2</option>
-                        <option value={4}>4</option>
-                        <option value={6}>6</option>
-                        <option value={8}>8</option>
-                        <option value={12}>12</option>
-                        <option value={16}>16</option>
-                        <option value={24}>24</option>
-                    </select>
-                </div>
+                                        {...register("hours", { required: true })}
+                                    >
+                                        <option value={1}>1</option>
+                                        <option value={2}>2</option>
+                                        <option value={4}>4</option>
+                                        <option value={6}>6</option>
+                                        <option value={8}>8</option>
+                                        <option value={12}>12</option>
+                                        <option value={16}>16</option>
+                                        <option value={24}>24</option>
+                                    </select>
+                                </div>
 
-                <div className='text-white'>
-                    <label className="relative inline-flex items-center me-5 cursor-pointer">
-                        <input type="checkbox" value="" className="sr-only peer"
-                            {...register("alert")}
-                        />
-                        <div className="w-11 h-6 bg-gray-700 rounded-full peer
+                                <div className='text-white'>
+                                    <label className="relative inline-flex items-center me-5 cursor-pointer">
+                                        <input type="checkbox" value="" className="sr-only peer"
+                                            {...register("alert")}
+                                        />
+                                        <div className="w-11 h-6 bg-gray-700 rounded-full peer
                              dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-purple-300
                               dark:peer-focus:ring-purple-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full
                                peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white
                                 after:border-red-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600
                                  peer-checked:bg-purple-600"></div>
-                        <span className="ms-3 lg:text-xl font-medium text-white dark:text-gray-300">Get alert for this task <span className='text-yellow-400 lg:text-xl'>Before 1 Hour</span> </span>
-                    </label>
+                                        <span className="ms-3 lg:text-xl font-medium text-white dark:text-gray-300">Get alert for this task <span className='text-yellow-400 lg:text-xl'>Before 1 Hour</span> </span>
+                                    </label>
+                                </div>
+                            </div>
+                        )
+                    }
                 </div>
 
                 <button type='submit' className='w-full hover:bg-purple-500 font-semibold
